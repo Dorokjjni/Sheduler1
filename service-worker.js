@@ -1,14 +1,13 @@
 'use strict';
 
-// При каждом заметном обновлении приложения меняйте номер кеша.
-const CACHE_NAME = 'circle-planner-cache-v1';
+/* Новый номер кеша удаляет старые файлы предыдущей версии. */
+const CACHE_NAME = 'circle-planner-cache-v2';
 
-// Эти файлы сохраняются на устройстве для работы без интернета.
 const APP_FILES = [
   './',
   './index.html',
-  './styles.css',
-  './app.js',
+  './styles-v2.css',
+  './app-v2.js',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png'
@@ -37,16 +36,30 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
+  // Для HTML сначала пробуем сеть, чтобы обновления GitHub Pages появлялись быстрее.
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put('./index.html', copy));
+          return response;
+        })
+        .catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
 
-      return fetch(event.request).then(networkResponse => {
-        const copy = networkResponse.clone();
+  // Для остальных файлов используем кеш, а при отсутствии загружаем из сети.
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      if (cached) {
+        return cached;
+      }
+      return fetch(event.request).then(response => {
+        const copy = response.clone();
         caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
-        return networkResponse;
+        return response;
       });
     })
   );

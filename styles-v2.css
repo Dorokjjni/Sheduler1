@@ -1,0 +1,678 @@
+/*
+ * Оформление версии 2.
+ * Цвета повторяют предыдущее приложение: светло-серый фон,
+ * белые карточки, тёмный текст и синий акцент.
+ */
+
+:root {
+  color-scheme: light;
+  --background: #f3f4f6;
+  --card: #ffffff;
+  --card-soft: #f8fafc;
+  --text: #111827;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --line-strong: #cbd5e1;
+  --accent: #2563eb;
+  --accent-dark: #1d4ed8;
+  --accent-soft: #dbeafe;
+  --danger: #dc2626;
+  --danger-soft: #fee2e2;
+  --shadow: 0 16px 42px rgba(17, 24, 39, 0.08);
+  --radius: 22px;
+
+  --work: #2563eb;
+  --study: #7c3aed;
+  --health: #059669;
+  --home: #ea580c;
+  --rest: #db2777;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--background);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.13), transparent 34rem),
+    var(--background);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.hour-segment:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.28);
+  outline-offset: 3px;
+}
+
+.app-shell {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  padding:
+    max(24px, env(safe-area-inset-top))
+    max(16px, env(safe-area-inset-right))
+    max(40px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
+}
+
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.page-heading {
+  min-width: 0;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 7px;
+  font-size: clamp(2rem, 6vw, 3.7rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+h2 {
+  margin-bottom: 0;
+  font-size: clamp(1.25rem, 3vw, 1.8rem);
+  letter-spacing: -0.025em;
+}
+
+h3 {
+  margin-bottom: 10px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+.eyebrow,
+.section-kicker,
+.form-caption {
+  margin-bottom: 6px;
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.active-day-label,
+.week-range,
+.table-help,
+.selection-hint {
+  color: var(--muted);
+}
+
+.active-day-label {
+  margin-bottom: 0;
+  text-transform: capitalize;
+}
+
+main {
+  display: grid;
+  gap: 17px;
+}
+
+.card {
+  padding: clamp(17px, 3vw, 28px);
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: var(--shadow);
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.compact-heading,
+.week-heading {
+  align-items: center;
+}
+
+.selection-hint {
+  max-width: 350px;
+  margin-bottom: 0;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card-soft);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.secondary-button,
+.primary-button,
+.nav-button,
+.text-button,
+.delete-button {
+  border: 0;
+  border-radius: 13px;
+  font-weight: 800;
+}
+
+.secondary-button {
+  min-height: 46px;
+  padding: 0 17px;
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+}
+
+.primary-button {
+  min-height: 47px;
+  padding: 0 20px;
+  color: #ffffff;
+  background: var(--accent);
+  box-shadow: 0 9px 20px rgba(37, 99, 235, 0.22);
+}
+
+.primary-button:hover {
+  background: var(--accent-dark);
+}
+
+.text-button {
+  padding: 8px 10px;
+  color: var(--muted);
+  background: transparent;
+}
+
+/* Два циферблата */
+.clock-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(10px, 2.5vw, 24px);
+}
+
+.clock-panel {
+  min-width: 0;
+  padding: clamp(10px, 2vw, 17px);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: linear-gradient(180deg, #ffffff, #f8fafc);
+}
+
+.clock {
+  display: block;
+  width: min(100%, 430px);
+  height: auto;
+  margin: 0 auto;
+  overflow: visible;
+  touch-action: manipulation;
+}
+
+.clock-face {
+  fill: #ffffff;
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+}
+
+.hour-segment {
+  fill: #eff6ff;
+  stroke: #ffffff;
+  stroke-width: 3;
+  transform-origin: 150px 150px;
+  transition: fill 120ms ease, transform 120ms ease, opacity 120ms ease;
+  cursor: pointer;
+}
+
+.hour-segment:hover {
+  fill: #bfdbfe;
+  transform: scale(1.012);
+}
+
+.hour-segment.is-selected {
+  fill: #93c5fd;
+}
+
+.hour-segment.is-work { fill: var(--work); }
+.hour-segment.is-study { fill: var(--study); }
+.hour-segment.is-health { fill: var(--health); }
+.hour-segment.is-home { fill: var(--home); }
+.hour-segment.is-rest { fill: var(--rest); }
+
+.hour-segment[class*="is-"]:not(.is-selected) {
+  opacity: 0.9;
+}
+
+.hour-label {
+  fill: var(--text);
+  font-size: 13px;
+  font-weight: 850;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.clock-center {
+  fill: #ffffff;
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+}
+
+.clock-center-main {
+  fill: var(--text);
+  font-size: 19px;
+  font-weight: 850;
+  text-anchor: middle;
+}
+
+.clock-center-sub {
+  fill: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+/* Форма создания задачи */
+.task-form {
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr auto;
+  align-items: end;
+  gap: 13px;
+  margin-top: 20px;
+  padding: 17px;
+  border: 1px solid #bfdbfe;
+  border-radius: 17px;
+  background: #eff6ff;
+}
+
+.task-form[hidden] {
+  display: none;
+}
+
+.form-heading {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.form-heading strong {
+  display: block;
+  font-size: 1.15rem;
+}
+
+.task-form label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 750;
+}
+
+.task-form input,
+.task-form select,
+.day-focus {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  color: var(--text);
+  background: #ffffff;
+}
+
+.task-form input,
+.task-form select {
+  min-height: 47px;
+  padding: 0 12px;
+}
+
+.form-error {
+  grid-column: 1 / -1;
+  min-height: 1em;
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.84rem;
+  font-weight: 750;
+}
+
+/* Список задач выбранного дня */
+.count-badge {
+  display: grid;
+  min-width: 38px;
+  min-height: 38px;
+  place-items: center;
+  border-radius: 999px;
+  color: #ffffff;
+  background: var(--accent);
+  font-weight: 850;
+}
+
+.day-task-list {
+  display: grid;
+  gap: 10px;
+}
+
+.empty-state {
+  margin: 0;
+  padding: 18px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 14px;
+  color: var(--muted);
+  background: var(--card-soft);
+  text-align: center;
+}
+
+.day-task-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: #ffffff;
+}
+
+.time-chip {
+  min-width: 108px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 850;
+  text-align: center;
+}
+
+.time-chip.work { background: var(--work); }
+.time-chip.study { background: var(--study); }
+.time-chip.health { background: var(--health); }
+.time-chip.home { background: var(--home); }
+.time-chip.rest { background: var(--rest); }
+
+.task-title {
+  margin: 0;
+  font-weight: 800;
+}
+
+.task-category {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 0.81rem;
+}
+
+.delete-button {
+  width: 38px;
+  height: 38px;
+  color: var(--danger);
+  background: var(--danger-soft);
+  font-size: 1.15rem;
+}
+
+/* Недельная таблица */
+.week-navigation {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-button {
+  width: 44px;
+  height: 44px;
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+  font-size: 1.2rem;
+}
+
+.week-range {
+  margin: 5px 0 0;
+}
+
+.table-help {
+  margin-bottom: 14px;
+  font-size: 0.87rem;
+}
+
+.week-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  padding: 2px 2px 10px;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.week-table {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(175px, 1fr));
+  min-width: 1225px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 16px;
+  background: var(--line);
+  gap: 1px;
+}
+
+.day-column {
+  display: flex;
+  min-height: 365px;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.day-column.is-active {
+  box-shadow: inset 0 0 0 3px var(--accent);
+}
+
+.day-header {
+  width: 100%;
+  min-height: 72px;
+  padding: 12px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  background: #f8fafc;
+  text-align: left;
+}
+
+.day-column.is-today .day-header {
+  color: #ffffff;
+  background: var(--accent);
+}
+
+.day-name {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.day-date {
+  display: block;
+  margin-top: 3px;
+  font-size: 1.18rem;
+  font-weight: 800;
+}
+
+.day-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  padding: 11px;
+}
+
+.focus-label {
+  color: var(--muted);
+  font-size: 0.71rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.day-focus {
+  min-height: 82px;
+  margin-top: 7px;
+  padding: 9px;
+  resize: vertical;
+  line-height: 1.35;
+}
+
+.mini-task-list {
+  display: grid;
+  gap: 7px;
+}
+
+.mini-task {
+  padding: 8px 9px;
+  border-left: 5px solid;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.mini-task.work { border-color: var(--work); }
+.mini-task.study { border-color: var(--study); }
+.mini-task.health { border-color: var(--health); }
+.mini-task.home { border-color: var(--home); }
+.mini-task.rest { border-color: var(--rest); }
+
+.mini-task time {
+  display: block;
+  color: var(--muted);
+  font-size: 0.69rem;
+  font-weight: 800;
+}
+
+.mini-task span {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.8rem;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.no-mini-tasks {
+  color: var(--muted);
+  font-size: 0.77rem;
+  font-style: italic;
+}
+
+.noscript {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  z-index: 20;
+  margin: 0;
+  padding: 12px;
+  border-radius: 12px;
+  color: #7f1d1d;
+  background: #fee2e2;
+  text-align: center;
+}
+
+@media (max-width: 800px) {
+  .topbar,
+  .section-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .secondary-button {
+    align-self: flex-start;
+  }
+
+  .selection-hint {
+    max-width: none;
+  }
+
+  .task-form {
+    grid-template-columns: 1fr;
+  }
+
+  .form-heading,
+  .form-error {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .app-shell {
+    padding-inline: 11px;
+  }
+
+  .card {
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .clock-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .clock-panel {
+    padding: 8px 2px 6px;
+    border-radius: 15px;
+  }
+
+  .clock-panel h3 {
+    font-size: 0.68rem;
+  }
+
+  .hour-label {
+    font-size: 14px;
+  }
+
+  .clock-center-main {
+    font-size: 20px;
+  }
+
+  .clock-center-sub {
+    font-size: 11px;
+  }
+
+  .day-task-item {
+    grid-template-columns: 1fr auto;
+  }
+
+  .time-chip {
+    grid-column: 1 / -1;
+    width: fit-content;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

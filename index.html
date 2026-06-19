@@ -3,32 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f6f0df">
+  <meta name="theme-color" content="#f3f4f6">
   <meta name="description" content="Круговой планировщик дня и недельная таблица задач">
-
-  <!-- Манифест делает сайт устанавливаемым PWA-приложением. -->
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="icon" href="./icons/icon-192.png">
-  <link rel="stylesheet" href="./styles.css">
-
+  <!-- Имена файлов содержат v2, чтобы браузер не взял старые версии из кеша. -->
+  <link rel="stylesheet" href="./styles-v2.css">
   <title>Круговой планировщик</title>
 </head>
 <body>
   <div class="app-shell">
-    <header class="app-header">
-      <div>
+    <header class="topbar">
+      <div class="page-heading">
         <p class="eyebrow">Планирование времени</p>
         <h1>Круговой планировщик</h1>
-        <p id="activeDayLabel" class="active-day-label"></p>
+        <p id="activeDayLabel" class="active-day-label">Загрузка даты…</p>
       </div>
-
       <button id="todayButton" class="secondary-button" type="button">Сегодня</button>
     </header>
 
     <main>
-      <!-- Верхняя часть: два циферблата, разделяющие сутки на две половины. -->
-      <section class="panel clocks-panel" aria-labelledby="clockTitle">
+      <section class="card clocks-card" aria-labelledby="clockTitle">
         <div class="section-heading">
           <div>
             <p class="section-kicker">Расписание выбранного дня</p>
@@ -38,34 +34,86 @@
         </div>
 
         <div class="clock-grid">
-          <article class="clock-card">
-            <h3>00:00 — 12:00</h3>
-            <svg id="clockAM" class="clock" viewBox="0 0 260 260" role="img" aria-label="Циферблат от 0 до 12 часов"></svg>
+          <article class="clock-panel">
+            <h3>00:00–12:00</h3>
+            <svg id="clockAM" class="clock" viewBox="0 0 300 300" role="group" aria-label="0–12">
+<circle class="clock-face" cx="150" cy="150" r="138"></circle>
+<path class="hour-segment" data-hour="0" tabindex="0" role="button" aria-label="Выбрать 00:00" d="M 153.351 22.044 A 128 128 0 0 1 211.076 37.511 L 177.198 99.907 A 57 57 0 0 0 151.492 93.020 Z"></path>
+<path class="hour-segment" data-hour="1" tabindex="0" role="button" aria-label="Выбрать 01:00" d="M 216.880 40.862 A 128 128 0 0 1 259.138 83.120 L 198.600 120.218 A 57 57 0 0 0 179.782 101.400 Z"></path>
+<path class="hour-segment" data-hour="2" tabindex="0" role="button" aria-label="Выбрать 02:00" d="M 262.489 88.924 A 128 128 0 0 1 277.956 146.649 L 206.980 148.508 A 57 57 0 0 0 200.093 122.802 Z"></path>
+<path class="hour-segment" data-hour="3" tabindex="0" role="button" aria-label="Выбрать 03:00" d="M 277.956 153.351 A 128 128 0 0 1 262.489 211.076 L 200.093 177.198 A 57 57 0 0 0 206.980 151.492 Z"></path>
+<path class="hour-segment" data-hour="4" tabindex="0" role="button" aria-label="Выбрать 04:00" d="M 259.138 216.880 A 128 128 0 0 1 216.880 259.138 L 179.782 198.600 A 57 57 0 0 0 198.600 179.782 Z"></path>
+<path class="hour-segment" data-hour="5" tabindex="0" role="button" aria-label="Выбрать 05:00" d="M 211.076 262.489 A 128 128 0 0 1 153.351 277.956 L 151.492 206.980 A 57 57 0 0 0 177.198 200.093 Z"></path>
+<path class="hour-segment" data-hour="6" tabindex="0" role="button" aria-label="Выбрать 06:00" d="M 146.649 277.956 A 128 128 0 0 1 88.924 262.489 L 122.802 200.093 A 57 57 0 0 0 148.508 206.980 Z"></path>
+<path class="hour-segment" data-hour="7" tabindex="0" role="button" aria-label="Выбрать 07:00" d="M 83.120 259.138 A 128 128 0 0 1 40.862 216.880 L 101.400 179.782 A 57 57 0 0 0 120.218 198.600 Z"></path>
+<path class="hour-segment" data-hour="8" tabindex="0" role="button" aria-label="Выбрать 08:00" d="M 37.511 211.076 A 128 128 0 0 1 22.044 153.351 L 93.020 151.492 A 57 57 0 0 0 99.907 177.198 Z"></path>
+<path class="hour-segment" data-hour="9" tabindex="0" role="button" aria-label="Выбрать 09:00" d="M 22.044 146.649 A 128 128 0 0 1 37.511 88.924 L 99.907 122.802 A 57 57 0 0 0 93.020 148.508 Z"></path>
+<path class="hour-segment" data-hour="10" tabindex="0" role="button" aria-label="Выбрать 10:00" d="M 40.862 83.120 A 128 128 0 0 1 83.120 40.862 L 120.218 101.400 A 57 57 0 0 0 101.400 120.218 Z"></path>
+<path class="hour-segment" data-hour="11" tabindex="0" role="button" aria-label="Выбрать 11:00" d="M 88.924 37.511 A 128 128 0 0 1 146.649 22.044 L 148.508 93.020 A 57 57 0 0 0 122.802 99.907 Z"></path>
+<text class="hour-label" x="186.752" y="12.839">0</text>
+<text class="hour-label" x="250.409" y="49.591">1</text>
+<text class="hour-label" x="287.161" y="113.248">2</text>
+<text class="hour-label" x="287.161" y="186.752">3</text>
+<text class="hour-label" x="250.409" y="250.409">4</text>
+<text class="hour-label" x="186.752" y="287.161">5</text>
+<text class="hour-label" x="113.248" y="287.161">6</text>
+<text class="hour-label" x="49.591" y="250.409">7</text>
+<text class="hour-label" x="12.839" y="186.752">8</text>
+<text class="hour-label" x="12.839" y="113.248">9</text>
+<text class="hour-label" x="49.591" y="49.591">10</text>
+<text class="hour-label" x="113.248" y="12.839">11</text>
+<circle class="clock-center" cx="150" cy="150" r="50"></circle>
+<text class="clock-center-main" x="150" y="145">0–12</text>
+<text class="clock-center-sub" x="150" y="166">ночь / утро</text>
+</svg>
           </article>
-
-          <article class="clock-card">
-            <h3>12:00 — 24:00</h3>
-            <svg id="clockPM" class="clock" viewBox="0 0 260 260" role="img" aria-label="Циферблат от 12 до 24 часов"></svg>
+          <article class="clock-panel">
+            <h3>12:00–24:00</h3>
+            <svg id="clockPM" class="clock" viewBox="0 0 300 300" role="group" aria-label="12–24">
+<circle class="clock-face" cx="150" cy="150" r="138"></circle>
+<path class="hour-segment" data-hour="12" tabindex="0" role="button" aria-label="Выбрать 12:00" d="M 153.351 22.044 A 128 128 0 0 1 211.076 37.511 L 177.198 99.907 A 57 57 0 0 0 151.492 93.020 Z"></path>
+<path class="hour-segment" data-hour="13" tabindex="0" role="button" aria-label="Выбрать 13:00" d="M 216.880 40.862 A 128 128 0 0 1 259.138 83.120 L 198.600 120.218 A 57 57 0 0 0 179.782 101.400 Z"></path>
+<path class="hour-segment" data-hour="14" tabindex="0" role="button" aria-label="Выбрать 14:00" d="M 262.489 88.924 A 128 128 0 0 1 277.956 146.649 L 206.980 148.508 A 57 57 0 0 0 200.093 122.802 Z"></path>
+<path class="hour-segment" data-hour="15" tabindex="0" role="button" aria-label="Выбрать 15:00" d="M 277.956 153.351 A 128 128 0 0 1 262.489 211.076 L 200.093 177.198 A 57 57 0 0 0 206.980 151.492 Z"></path>
+<path class="hour-segment" data-hour="16" tabindex="0" role="button" aria-label="Выбрать 16:00" d="M 259.138 216.880 A 128 128 0 0 1 216.880 259.138 L 179.782 198.600 A 57 57 0 0 0 198.600 179.782 Z"></path>
+<path class="hour-segment" data-hour="17" tabindex="0" role="button" aria-label="Выбрать 17:00" d="M 211.076 262.489 A 128 128 0 0 1 153.351 277.956 L 151.492 206.980 A 57 57 0 0 0 177.198 200.093 Z"></path>
+<path class="hour-segment" data-hour="18" tabindex="0" role="button" aria-label="Выбрать 18:00" d="M 146.649 277.956 A 128 128 0 0 1 88.924 262.489 L 122.802 200.093 A 57 57 0 0 0 148.508 206.980 Z"></path>
+<path class="hour-segment" data-hour="19" tabindex="0" role="button" aria-label="Выбрать 19:00" d="M 83.120 259.138 A 128 128 0 0 1 40.862 216.880 L 101.400 179.782 A 57 57 0 0 0 120.218 198.600 Z"></path>
+<path class="hour-segment" data-hour="20" tabindex="0" role="button" aria-label="Выбрать 20:00" d="M 37.511 211.076 A 128 128 0 0 1 22.044 153.351 L 93.020 151.492 A 57 57 0 0 0 99.907 177.198 Z"></path>
+<path class="hour-segment" data-hour="21" tabindex="0" role="button" aria-label="Выбрать 21:00" d="M 22.044 146.649 A 128 128 0 0 1 37.511 88.924 L 99.907 122.802 A 57 57 0 0 0 93.020 148.508 Z"></path>
+<path class="hour-segment" data-hour="22" tabindex="0" role="button" aria-label="Выбрать 22:00" d="M 40.862 83.120 A 128 128 0 0 1 83.120 40.862 L 120.218 101.400 A 57 57 0 0 0 101.400 120.218 Z"></path>
+<path class="hour-segment" data-hour="23" tabindex="0" role="button" aria-label="Выбрать 23:00" d="M 88.924 37.511 A 128 128 0 0 1 146.649 22.044 L 148.508 93.020 A 57 57 0 0 0 122.802 99.907 Z"></path>
+<text class="hour-label" x="186.752" y="12.839">12</text>
+<text class="hour-label" x="250.409" y="49.591">13</text>
+<text class="hour-label" x="287.161" y="113.248">14</text>
+<text class="hour-label" x="287.161" y="186.752">15</text>
+<text class="hour-label" x="250.409" y="250.409">16</text>
+<text class="hour-label" x="186.752" y="287.161">17</text>
+<text class="hour-label" x="113.248" y="287.161">18</text>
+<text class="hour-label" x="49.591" y="250.409">19</text>
+<text class="hour-label" x="12.839" y="186.752">20</text>
+<text class="hour-label" x="12.839" y="113.248">21</text>
+<text class="hour-label" x="49.591" y="49.591">22</text>
+<text class="hour-label" x="113.248" y="12.839">23</text>
+<circle class="clock-center" cx="150" cy="150" r="50"></circle>
+<text class="clock-center-main" x="150" y="145">12–24</text>
+<text class="clock-center-sub" x="150" y="166">день / вечер</text>
+</svg>
           </article>
         </div>
 
-        <!-- Форма появляется после выбора двух часов. -->
         <form id="taskForm" class="task-form" hidden>
           <div class="form-heading">
             <div>
               <span class="form-caption">Выбранный промежуток</span>
               <strong id="selectedRange">—</strong>
             </div>
-            <button id="cancelSelectionButton" class="icon-text-button" type="button">Отмена</button>
+            <button id="cancelSelectionButton" class="text-button" type="button">Отмена</button>
           </div>
-
-          <label>
-            Название задачи
+          <label>Название задачи
             <input id="taskTitle" type="text" maxlength="80" placeholder="Например: Работа над проектом" required>
           </label>
-
-          <label>
-            Категория
+          <label>Категория
             <select id="taskCategory">
               <option value="work">Работа</option>
               <option value="study">Учёба</option>
@@ -74,14 +122,12 @@
               <option value="rest">Отдых</option>
             </select>
           </label>
-
-          <button class="primary-button" type="submit">Сохранить в расписание</button>
+          <button class="primary-button" type="submit">Сохранить</button>
           <p id="formError" class="form-error" role="alert"></p>
         </form>
       </section>
 
-      <!-- Список задач выбранного дня нужен для быстрого просмотра и удаления. -->
-      <section class="panel day-list-panel" aria-labelledby="dayTasksTitle">
+      <section class="card" aria-labelledby="dayTasksTitle">
         <div class="section-heading compact-heading">
           <div>
             <p class="section-kicker">Подробности</p>
@@ -89,32 +135,111 @@
           </div>
           <span id="dayTaskCount" class="count-badge">0</span>
         </div>
-        <div id="dayTaskList" class="day-task-list"></div>
+        <div id="dayTaskList" class="day-task-list">
+          <p class="empty-state">На этот день ещё нет задач.</p>
+        </div>
       </section>
 
-      <!-- Нижняя часть: недельная таблица из семи столбцов. -->
-      <section class="panel week-panel" aria-labelledby="weekTitle">
+      <section class="card week-card" aria-labelledby="weekTitle">
         <div class="section-heading week-heading">
           <div>
             <p class="section-kicker">Недельный обзор</p>
             <h2 id="weekTitle">Таблица на семь дней</h2>
-            <p id="weekRange" class="week-range"></p>
+            <p id="weekRange" class="week-range">Загрузка недели…</p>
           </div>
-
           <div class="week-navigation" aria-label="Переключение недели">
             <button id="previousWeekButton" class="nav-button" type="button" aria-label="Предыдущая неделя">←</button>
             <button id="nextWeekButton" class="nav-button" type="button" aria-label="Следующая неделя">→</button>
           </div>
         </div>
-
-        <p class="table-help">Нажмите на столбец дня, чтобы открыть его циферблаты. Текст в поле «Фокус дня» сохраняется автоматически.</p>
+        <p class="table-help">Нажмите на заголовок дня, чтобы открыть его циферблаты. Поле «Фокус дня» сохраняется автоматически.</p>
         <div class="week-table-wrap">
-          <div id="weekTable" class="week-table" role="table" aria-label="Недельное расписание"></div>
+          <div id="weekTable" class="week-table" role="table" aria-label="Недельное расписание">
+            <article class="day-column" data-day-index="0" role="cell">
+      <button class="day-header" type="button" aria-label="Открыть Пн">
+        <span class="day-name">Пн</span>
+        <span class="day-date">—</span>
+      </button>
+      <div class="day-body">
+        <label class="focus-label">Фокус дня
+          <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная цель, заметки…"></textarea>
+        </label>
+        <div class="mini-task-list"><span class="no-mini-tasks">Нет запланированных задач</span></div>
+      </div>
+    </article><article class="day-column" data-day-index="1" role="cell">
+      <button class="day-header" type="button" aria-label="Открыть Вт">
+        <span class="day-name">Вт</span>
+        <span class="day-date">—</span>
+      </button>
+      <div class="day-body">
+        <label class="focus-label">Фокус дня
+          <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная цель, заметки…"></textarea>
+        </label>
+        <div class="mini-task-list"><span class="no-mini-tasks">Нет запланированных задач</span></div>
+      </div>
+    </article><article class="day-column" data-day-index="2" role="cell">
+      <button class="day-header" type="button" aria-label="Открыть Ср">
+        <span class="day-name">Ср</span>
+        <span class="day-date">—</span>
+      </button>
+      <div class="day-body">
+        <label class="focus-label">Фокус дня
+          <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная цель, заметки…"></textarea>
+        </label>
+        <div class="mini-task-list"><span class="no-mini-tasks">Нет запланированных задач</span></div>
+      </div>
+    </article><article class="day-column" data-day-index="3" role="cell">
+      <button class="day-header" type="button" aria-label="Открыть Чт">
+        <span class="day-name">Чт</span>
+        <span class="day-date">—</span>
+      </button>
+      <div class="day-body">
+        <label class="focus-label">Фокус дня
+          <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная цель, заметки…"></textarea>
+        </label>
+        <div class="mini-task-list"><span class="no-mini-tasks">Нет запланированных задач</span></div>
+      </div>
+    </article><article class="day-column" data-day-index="4" role="cell">
+      <button class="day-header" type="button" aria-label="Открыть Пт">
+        <span class="day-name">Пт</span>
+        <span class="day-date">—</span>
+      </button>
+      <div class="day-body">
+        <label class="focus-label">Фокус дня
+          <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная цель, заметки…"></textarea>
+        </label>
+        <div class="mini-task-list"><span class="no-mini-tasks">Нет запланированных задач</span></div>
+      </div>
+    </article><article class="day-column" data-day-index="5" role="cell">
+      <button class="day-header" type="button" aria-label="Открыть Сб">
+        <span class="day-name">Сб</span>
+        <span class="day-date">—</span>
+      </button>
+      <div class="day-body">
+        <label class="focus-label">Фокус дня
+          <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная цель, заметки…"></textarea>
+        </label>
+        <div class="mini-task-list"><span class="no-mini-tasks">Нет запланированных задач</span></div>
+      </div>
+    </article><article class="day-column" data-day-index="6" role="cell">
+      <button class="day-header" type="button" aria-label="Открыть Вс">
+        <span class="day-name">Вс</span>
+        <span class="day-date">—</span>
+      </button>
+      <div class="day-body">
+        <label class="focus-label">Фокус дня
+          <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная цель, заметки…"></textarea>
+        </label>
+        <div class="mini-task-list"><span class="no-mini-tasks">Нет запланированных задач</span></div>
+      </div>
+    </article>
+          </div>
         </div>
       </section>
     </main>
   </div>
 
-  <script src="./app.js" defer></script>
+  <noscript><p class="noscript">Для работы выбора времени включите JavaScript. Циферблаты и таблица остаются видимыми.</p></noscript>
+  <script src="./app-v2.js" defer></script>
 </body>
 </html>
