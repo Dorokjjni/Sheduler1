@@ -1,13 +1,13 @@
 'use strict';
 
-/* Новый номер кеша удаляет старые файлы предыдущей версии. */
-const CACHE_NAME = 'circle-planner-cache-v2';
+/* Новый номер кеша заставляет браузер удалить ресурсы версии 2. */
+const CACHE_NAME = 'circle-planner-cache-v3';
 
 const APP_FILES = [
   './',
   './index.html',
-  './styles-v2.css',
-  './app-v2.js',
+  './styles-v3.css',
+  './app-v3.js',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png'
@@ -36,7 +36,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Для HTML сначала пробуем сеть, чтобы обновления GitHub Pages появлялись быстрее.
+  // HTML загружаем сначала из сети, чтобы обновления GitHub Pages появлялись быстрее.
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request)
@@ -50,12 +50,13 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Для остальных файлов используем кеш, а при отсутствии загружаем из сети.
+  // Остальные файлы берём из кеша, а при отсутствии — из сети.
   event.respondWith(
     caches.match(event.request).then(cached => {
       if (cached) {
         return cached;
       }
+
       return fetch(event.request).then(response => {
         const copy = response.clone();
         caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));

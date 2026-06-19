@@ -4,33 +4,35 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f3f4f6">
-  <meta name="description" content="Круговой планировщик дня и недельная таблица задач">
+  <meta name="description" content="Регулярный круговой планировщик задач на каждый день недели">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="icon" href="./icons/icon-192.png">
-  <!-- Имена файлов содержат v2, чтобы браузер не взял старые версии из кеша. -->
-  <link rel="stylesheet" href="./styles-v2.css">
-  <title>Круговой планировщик</title>
+  <!-- Имена файлов содержат v3, чтобы браузер не использовал старый кеш. -->
+  <link rel="stylesheet" href="./styles-v3.css">
+  <title>Регулярный круговой планировщик</title>
 </head>
 <body>
   <div class="app-shell">
     <header class="topbar">
       <div class="page-heading">
-        <p class="eyebrow">Планирование времени</p>
+        <p class="eyebrow">Регулярное расписание</p>
         <h1>Круговой планировщик</h1>
-        <p id="activeDayLabel" class="active-day-label">Загрузка даты…</p>
+        <!-- Здесь JavaScript показывает выбранный день недели. -->
+        <p id="activeDayLabel" class="active-day-label">Загрузка дня недели…</p>
       </div>
-      <button id="todayButton" class="secondary-button" type="button">Сегодня</button>
+      <!-- Кнопка возвращает к текущему дню недели, но не привязывает задачи к дате. -->
+      <button id="todayButton" class="secondary-button" type="button">Текущий день</button>
     </header>
 
     <main>
       <section class="card clocks-card" aria-labelledby="clockTitle">
         <div class="section-heading">
           <div>
-            <p class="section-kicker">Расписание выбранного дня</p>
-            <h2 id="clockTitle">Выберите временной промежуток</h2>
+            <p class="section-kicker">Повторяется каждую неделю</p>
+            <h2 id="clockTitle">Выберите час или промежуток</h2>
           </div>
-          <p id="selectionHint" class="selection-hint">Нажмите час начала, затем час окончания.</p>
+          <p id="selectionHint" class="selection-hint">Одно нажатие выбирает один час. Второе нажатие расширяет промежуток.</p>
         </div>
 
         <div class="clock-grid">
@@ -94,7 +96,7 @@
 <text class="hour-label" x="12.839" y="186.752">20</text>
 <text class="hour-label" x="12.839" y="113.248">21</text>
 <text class="hour-label" x="49.591" y="49.591">22</text>
-<text class="hour-label" x="113.248" y="12.839">23</text>
+<text class="hour-label" x="113.248" y="12.839">24</text>
 <circle class="clock-center" cx="150" cy="150" r="50"></circle>
 <text class="clock-center-main" x="150" y="145">12–24</text>
 <text class="clock-center-sub" x="150" y="166">день / вечер</text>
@@ -130,116 +132,146 @@
       <section class="card" aria-labelledby="dayTasksTitle">
         <div class="section-heading compact-heading">
           <div>
-            <p class="section-kicker">Подробности</p>
-            <h2 id="dayTasksTitle">Задачи выбранного дня</h2>
+            <p class="section-kicker">Регулярные задачи</p>
+            <h2 id="dayTasksTitle">Задачи выбранного дня недели</h2>
           </div>
           <span id="dayTaskCount" class="count-badge">0</span>
         </div>
         <div id="dayTaskList" class="day-task-list">
-          <p class="empty-state">На этот день ещё нет задач.</p>
+          <p class="empty-state">Для этого дня недели ещё нет регулярных задач.</p>
         </div>
       </section>
 
       <section class="card week-card" aria-labelledby="weekTitle">
         <div class="section-heading week-heading">
           <div>
-            <p class="section-kicker">Недельный обзор</p>
-            <h2 id="weekTitle">Таблица на семь дней</h2>
-            <p id="weekRange" class="week-range">Загрузка недели…</p>
-          </div>
-          <div class="week-navigation" aria-label="Переключение недели">
-            <button id="previousWeekButton" class="nav-button" type="button" aria-label="Предыдущая неделя">←</button>
-            <button id="nextWeekButton" class="nav-button" type="button" aria-label="Следующая неделя">→</button>
+            <p class="section-kicker">Постоянное расписание</p>
+            <h2 id="weekTitle">Семь дней недели</h2>
+            <p id="weekRange" class="week-range">Это расписание повторяется каждую неделю.</p>
           </div>
         </div>
-        <p class="table-help">Нажмите на заголовок дня, чтобы открыть его циферблаты. Поле «Фокус дня» сохраняется автоматически.</p>
+        <p class="table-help">Нажмите на день недели, затем выберите время на циферблате. Например, задача в воскресенье с 07:00 до 08:00 будет повторяться каждое воскресенье.</p>
         <div class="week-table-wrap">
-          <div id="weekTable" class="week-table" role="table" aria-label="Недельное расписание">
+          <div id="weekTable" class="week-table" role="table" aria-label="Регулярное недельное расписание">
             <article class="day-column" data-day-index="0" role="cell">
-      <button class="day-header" type="button" aria-label="Открыть Пн">
-        <span class="day-name">Пн</span>
-        <span class="day-date">—</span>
-      </button>
-      <div class="day-body">
-        <label class="focus-label">Фокус дня
-          <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная цель, заметки…"></textarea>
-        </label>
-        <div class="mini-task-list"><span class="no-mini-tasks">Нет запланированных задач</span></div>
-      </div>
-    </article><article class="day-column" data-day-index="1" role="cell">
-      <button class="day-header" type="button" aria-label="Открыть Вт">
-        <span class="day-name">Вт</span>
-        <span class="day-date">—</span>
-      </button>
-      <div class="day-body">
-        <label class="focus-label">Фокус дня
-          <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная цель, заметки…"></textarea>
-        </label>
-        <div class="mini-task-list"><span class="no-mini-tasks">Нет запланированных задач</span></div>
-      </div>
-    </article><article class="day-column" data-day-index="2" role="cell">
-      <button class="day-header" type="button" aria-label="Открыть Ср">
-        <span class="day-name">Ср</span>
-        <span class="day-date">—</span>
-      </button>
-      <div class="day-body">
-        <label class="focus-label">Фокус дня
-          <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная цель, заметки…"></textarea>
-        </label>
-        <div class="mini-task-list"><span class="no-mini-tasks">Нет запланированных задач</span></div>
-      </div>
-    </article><article class="day-column" data-day-index="3" role="cell">
-      <button class="day-header" type="button" aria-label="Открыть Чт">
-        <span class="day-name">Чт</span>
-        <span class="day-date">—</span>
-      </button>
-      <div class="day-body">
-        <label class="focus-label">Фокус дня
-          <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная цель, заметки…"></textarea>
-        </label>
-        <div class="mini-task-list"><span class="no-mini-tasks">Нет запланированных задач</span></div>
-      </div>
-    </article><article class="day-column" data-day-index="4" role="cell">
-      <button class="day-header" type="button" aria-label="Открыть Пт">
-        <span class="day-name">Пт</span>
-        <span class="day-date">—</span>
-      </button>
-      <div class="day-body">
-        <label class="focus-label">Фокус дня
-          <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная цель, заметки…"></textarea>
-        </label>
-        <div class="mini-task-list"><span class="no-mini-tasks">Нет запланированных задач</span></div>
-      </div>
-    </article><article class="day-column" data-day-index="5" role="cell">
-      <button class="day-header" type="button" aria-label="Открыть Сб">
-        <span class="day-name">Сб</span>
-        <span class="day-date">—</span>
-      </button>
-      <div class="day-body">
-        <label class="focus-label">Фокус дня
-          <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная цель, заметки…"></textarea>
-        </label>
-        <div class="mini-task-list"><span class="no-mini-tasks">Нет запланированных задач</span></div>
-      </div>
-    </article><article class="day-column" data-day-index="6" role="cell">
-      <button class="day-header" type="button" aria-label="Открыть Вс">
-        <span class="day-name">Вс</span>
-        <span class="day-date">—</span>
-      </button>
-      <div class="day-body">
-        <label class="focus-label">Фокус дня
-          <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная цель, заметки…"></textarea>
-        </label>
-        <div class="mini-task-list"><span class="no-mini-tasks">Нет запланированных задач</span></div>
-      </div>
-    </article>
+              <!-- Нажатие на заголовок выбирает этот повторяющийся день недели. -->
+              <button class="day-header" type="button" aria-label="Открыть Понедельник">
+                <span class="day-name">Пн</span>
+                <span class="day-date">каждую неделю</span>
+              </button>
+              <div class="day-body">
+                <!-- Заметка также является регулярной и не относится к конкретной дате. -->
+                <label class="focus-label">Фокус дня
+                  <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная регулярная цель, заметки…"></textarea>
+                </label>
+                <div class="mini-task-list">
+                  <span class="no-mini-tasks">Нет регулярных задач</span>
+                </div>
+              </div>
+            </article>
+            <article class="day-column" data-day-index="1" role="cell">
+              <!-- Нажатие на заголовок выбирает этот повторяющийся день недели. -->
+              <button class="day-header" type="button" aria-label="Открыть Вторник">
+                <span class="day-name">Вт</span>
+                <span class="day-date">каждую неделю</span>
+              </button>
+              <div class="day-body">
+                <!-- Заметка также является регулярной и не относится к конкретной дате. -->
+                <label class="focus-label">Фокус дня
+                  <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная регулярная цель, заметки…"></textarea>
+                </label>
+                <div class="mini-task-list">
+                  <span class="no-mini-tasks">Нет регулярных задач</span>
+                </div>
+              </div>
+            </article>
+            <article class="day-column" data-day-index="2" role="cell">
+              <!-- Нажатие на заголовок выбирает этот повторяющийся день недели. -->
+              <button class="day-header" type="button" aria-label="Открыть Среда">
+                <span class="day-name">Ср</span>
+                <span class="day-date">каждую неделю</span>
+              </button>
+              <div class="day-body">
+                <!-- Заметка также является регулярной и не относится к конкретной дате. -->
+                <label class="focus-label">Фокус дня
+                  <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная регулярная цель, заметки…"></textarea>
+                </label>
+                <div class="mini-task-list">
+                  <span class="no-mini-tasks">Нет регулярных задач</span>
+                </div>
+              </div>
+            </article>
+            <article class="day-column" data-day-index="3" role="cell">
+              <!-- Нажатие на заголовок выбирает этот повторяющийся день недели. -->
+              <button class="day-header" type="button" aria-label="Открыть Четверг">
+                <span class="day-name">Чт</span>
+                <span class="day-date">каждую неделю</span>
+              </button>
+              <div class="day-body">
+                <!-- Заметка также является регулярной и не относится к конкретной дате. -->
+                <label class="focus-label">Фокус дня
+                  <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная регулярная цель, заметки…"></textarea>
+                </label>
+                <div class="mini-task-list">
+                  <span class="no-mini-tasks">Нет регулярных задач</span>
+                </div>
+              </div>
+            </article>
+            <article class="day-column" data-day-index="4" role="cell">
+              <!-- Нажатие на заголовок выбирает этот повторяющийся день недели. -->
+              <button class="day-header" type="button" aria-label="Открыть Пятница">
+                <span class="day-name">Пт</span>
+                <span class="day-date">каждую неделю</span>
+              </button>
+              <div class="day-body">
+                <!-- Заметка также является регулярной и не относится к конкретной дате. -->
+                <label class="focus-label">Фокус дня
+                  <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная регулярная цель, заметки…"></textarea>
+                </label>
+                <div class="mini-task-list">
+                  <span class="no-mini-tasks">Нет регулярных задач</span>
+                </div>
+              </div>
+            </article>
+            <article class="day-column" data-day-index="5" role="cell">
+              <!-- Нажатие на заголовок выбирает этот повторяющийся день недели. -->
+              <button class="day-header" type="button" aria-label="Открыть Суббота">
+                <span class="day-name">Сб</span>
+                <span class="day-date">каждую неделю</span>
+              </button>
+              <div class="day-body">
+                <!-- Заметка также является регулярной и не относится к конкретной дате. -->
+                <label class="focus-label">Фокус дня
+                  <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная регулярная цель, заметки…"></textarea>
+                </label>
+                <div class="mini-task-list">
+                  <span class="no-mini-tasks">Нет регулярных задач</span>
+                </div>
+              </div>
+            </article>
+            <article class="day-column" data-day-index="6" role="cell">
+              <!-- Нажатие на заголовок выбирает этот повторяющийся день недели. -->
+              <button class="day-header" type="button" aria-label="Открыть Воскресенье">
+                <span class="day-name">Вс</span>
+                <span class="day-date">каждую неделю</span>
+              </button>
+              <div class="day-body">
+                <!-- Заметка также является регулярной и не относится к конкретной дате. -->
+                <label class="focus-label">Фокус дня
+                  <textarea class="day-focus" rows="3" maxlength="240" placeholder="Главная регулярная цель, заметки…"></textarea>
+                </label>
+                <div class="mini-task-list">
+                  <span class="no-mini-tasks">Нет регулярных задач</span>
+                </div>
+              </div>
+            </article>
           </div>
         </div>
       </section>
     </main>
   </div>
 
-  <noscript><p class="noscript">Для работы выбора времени включите JavaScript. Циферблаты и таблица остаются видимыми.</p></noscript>
-  <script src="./app-v2.js" defer></script>
+  <noscript><p class="noscript">Для сохранения регулярных задач включите JavaScript. Циферблаты и таблица остаются видимыми.</p></noscript>
+  <script src="./app-v3.js" defer></script>
 </body>
 </html>
