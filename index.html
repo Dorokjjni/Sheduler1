@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f0df">
+  <meta name="description" content="Круговой планировщик дня и недельная таблица задач">
+
+  <!-- Манифест делает сайт устанавливаемым PWA-приложением. -->
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+
+  <title>Круговой планировщик</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Планирование времени</p>
+        <h1>Круговой планировщик</h1>
+        <p id="activeDayLabel" class="active-day-label"></p>
+      </div>
+
+      <button id="todayButton" class="secondary-button" type="button">Сегодня</button>
+    </header>
+
+    <main>
+      <!-- Верхняя часть: два циферблата, разделяющие сутки на две половины. -->
+      <section class="panel clocks-panel" aria-labelledby="clockTitle">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Расписание выбранного дня</p>
+            <h2 id="clockTitle">Выберите временной промежуток</h2>
+          </div>
+          <p id="selectionHint" class="selection-hint">Нажмите час начала, затем час окончания.</p>
+        </div>
+
+        <div class="clock-grid">
+          <article class="clock-card">
+            <h3>00:00 — 12:00</h3>
+            <svg id="clockAM" class="clock" viewBox="0 0 260 260" role="img" aria-label="Циферблат от 0 до 12 часов"></svg>
+          </article>
+
+          <article class="clock-card">
+            <h3>12:00 — 24:00</h3>
+            <svg id="clockPM" class="clock" viewBox="0 0 260 260" role="img" aria-label="Циферблат от 12 до 24 часов"></svg>
+          </article>
+        </div>
+
+        <!-- Форма появляется после выбора двух часов. -->
+        <form id="taskForm" class="task-form" hidden>
+          <div class="form-heading">
+            <div>
+              <span class="form-caption">Выбранный промежуток</span>
+              <strong id="selectedRange">—</strong>
+            </div>
+            <button id="cancelSelectionButton" class="icon-text-button" type="button">Отмена</button>
+          </div>
+
+          <label>
+            Название задачи
+            <input id="taskTitle" type="text" maxlength="80" placeholder="Например: Работа над проектом" required>
+          </label>
+
+          <label>
+            Категория
+            <select id="taskCategory">
+              <option value="work">Работа</option>
+              <option value="study">Учёба</option>
+              <option value="health">Здоровье</option>
+              <option value="home">Дом</option>
+              <option value="rest">Отдых</option>
+            </select>
+          </label>
+
+          <button class="primary-button" type="submit">Сохранить в расписание</button>
+          <p id="formError" class="form-error" role="alert"></p>
+        </form>
+      </section>
+
+      <!-- Список задач выбранного дня нужен для быстрого просмотра и удаления. -->
+      <section class="panel day-list-panel" aria-labelledby="dayTasksTitle">
+        <div class="section-heading compact-heading">
+          <div>
+            <p class="section-kicker">Подробности</p>
+            <h2 id="dayTasksTitle">Задачи выбранного дня</h2>
+          </div>
+          <span id="dayTaskCount" class="count-badge">0</span>
+        </div>
+        <div id="dayTaskList" class="day-task-list"></div>
+      </section>
+
+      <!-- Нижняя часть: недельная таблица из семи столбцов. -->
+      <section class="panel week-panel" aria-labelledby="weekTitle">
+        <div class="section-heading week-heading">
+          <div>
+            <p class="section-kicker">Недельный обзор</p>
+            <h2 id="weekTitle">Таблица на семь дней</h2>
+            <p id="weekRange" class="week-range"></p>
+          </div>
+
+          <div class="week-navigation" aria-label="Переключение недели">
+            <button id="previousWeekButton" class="nav-button" type="button" aria-label="Предыдущая неделя">←</button>
+            <button id="nextWeekButton" class="nav-button" type="button" aria-label="Следующая неделя">→</button>
+          </div>
+        </div>
+
+        <p class="table-help">Нажмите на столбец дня, чтобы открыть его циферблаты. Текст в поле «Фокус дня» сохраняется автоматически.</p>
+        <div class="week-table-wrap">
+          <div id="weekTable" class="week-table" role="table" aria-label="Недельное расписание"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
